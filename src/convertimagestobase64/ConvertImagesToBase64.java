@@ -28,9 +28,10 @@ import java.util.Map;
  */
 public class ConvertImagesToBase64 {
 
-    public static final String FILE_WITH_LIST_OF_IMAGES = "C:\\mediaportal\\lowres_images\\images.txt";
-    public static final String FOLDER_TO_PUT_LOWRES_IMAGES = "C:\\mediaportal\\lowres_images\\ano\\";
-//    public static final String FILE_WITH_LIST_OF_IMAGES = "D:\\Suporte\\SESC_SP\\2021\\images.txt";
+    public static final Integer SCRIPT_NUMBER = 7;
+    public static final String FILE_WITH_LIST_OF_IMAGES = "S:\\mediaportal\\images" + SCRIPT_NUMBER + ".txt";
+    public static final String FOLDER_TO_PUT_LOWRES_IMAGES = "S:\\mediaportal\\ano\\" + SCRIPT_NUMBER + "\\";
+//    public static final String FILE_WITH_LIST_OF_IMAGES = "D:\\   Suporte\\SESC_SP\\2021\\images.txt";
 //    public static final String FOLDER_TO_PUT_LOWRES_IMAGES = "D:\\Suporte\\SESC_SP\\2021";
     public static final Integer STORAGEID = 20;
 
@@ -52,6 +53,9 @@ public class ConvertImagesToBase64 {
 
         try (BufferedReader sourceFileReader = new BufferedReader(new FileReader(FILE_WITH_LIST_OF_IMAGES));
                 BufferedWriter imagesInBase64Writer = new BufferedWriter(new FileWriter(sqlImagesToBeLoaded))) {
+
+            File folder = new File(FOLDER_TO_PUT_LOWRES_IMAGES);
+            folder.mkdir();
 
             sqlMetadata = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sqlMetadataFile), Charset.forName("ISO-8859-1")));
             sqlMetadata.write("-- Script de inserção de metadados Exif e Iptc das imagens");
@@ -90,7 +94,7 @@ public class ConvertImagesToBase64 {
                 }
 
                 createProxyQuery(assetidStr, original);
-                
+
                 extractExifIptcQueries(assetidStr, original, 1);
                 extractExifIptcQueries(assetidStr, original, 2);
 
